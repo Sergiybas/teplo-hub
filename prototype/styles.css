@@ -1,0 +1,148 @@
+/* ============================================================
+   ТеплоХаб — дизайн-система
+   Концепт: інженерна точність + людяне тепло (вогонь і вода)
+   ============================================================ */
+
+:root {
+  /* — Нейтральна теплa база — */
+  --bg:          oklch(0.985 0.006 75);   /* теплий майже-білий */
+  --bg-2:        oklch(0.965 0.009 75);   /* картки/секції */
+  --bg-3:        oklch(0.935 0.012 72);   /* hairlines fill */
+  --ink:         oklch(0.255 0.012 60);   /* основний текст — теплий вугільний */
+  --ink-2:       oklch(0.46 0.012 60);    /* вторинний текст */
+  --ink-3:       oklch(0.62 0.010 60);    /* підписи */
+  --line:        oklch(0.89 0.010 70);    /* лінії */
+  --line-2:      oklch(0.82 0.012 65);
+
+  /* — Темна секція (вугільна) — */
+  --dark:        oklch(0.235 0.014 55);
+  --dark-2:      oklch(0.285 0.016 52);
+  --dark-line:   oklch(0.36 0.018 52);
+  --on-dark:     oklch(0.95 0.006 75);
+  --on-dark-2:   oklch(0.74 0.010 70);
+
+  /* — Акценти: підлаштовані під бренд-лого (вогонь + вода) — */
+  --heat:        oklch(0.685 0.185 48);   /* тепло — фірмовий помаранчевий */
+  --heat-soft:   oklch(0.94 0.05 55);
+  --heat-ink:    oklch(0.55 0.17 46);
+  --water:       oklch(0.685 0.13 233);   /* вода — фірмовий блакитний */
+  --water-soft:  oklch(0.945 0.035 233);
+  --water-ink:   oklch(0.55 0.13 238);
+
+  /* — Шрифти — */
+  --font-display: "Unbounded", system-ui, sans-serif;
+  --font-body:    "Onest", system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+  /* — Радіуси/тіні — */
+  --r-sm: 8px;
+  --r:    14px;
+  --r-lg: 22px;
+  --shadow:    0 1px 2px oklch(0.4 0.02 60 / 0.04), 0 8px 24px oklch(0.4 0.02 60 / 0.06);
+  --shadow-lg: 0 2px 4px oklch(0.4 0.02 60 / 0.05), 0 18px 50px oklch(0.4 0.02 60 / 0.10);
+
+  /* — Сітка — */
+  --maxw: 1240px;
+  --pad: clamp(20px, 5vw, 72px);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.55;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+/* — Типографіка — */
+h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.04; letter-spacing: -0.01em; }
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--heat-ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+.eyebrow::before {
+  content: "";
+  width: 22px; height: 1.5px;
+  background: var(--heat);
+  display: inline-block;
+}
+.eyebrow.water { color: var(--water-ink); }
+.eyebrow.water::before { background: var(--water); }
+.eyebrow.on-dark { color: var(--on-dark-2); }
+
+.section { padding: clamp(64px, 9vw, 130px) var(--pad); }
+.wrap { max-width: var(--maxw); margin: 0 auto; }
+
+.lead { font-size: clamp(18px, 2.1vw, 21px); color: var(--ink-2); max-width: 56ch; line-height: 1.6; }
+
+/* — Кнопки — */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-body); font-weight: 600; font-size: 16px;
+  padding: 15px 26px; border-radius: var(--r);
+  border: 1.5px solid transparent; cursor: pointer;
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease, border-color .18s ease;
+  white-space: nowrap;
+}
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--heat); color: oklch(0.99 0.01 75); box-shadow: 0 6px 18px oklch(0.685 0.185 48 / 0.32); }
+.btn-primary:hover { background: oklch(0.64 0.19 47); box-shadow: 0 8px 26px oklch(0.685 0.185 48 / 0.42); transform: translateY(-2px); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
+.btn-ghost:hover { border-color: var(--ink); background: oklch(0.97 0.008 75); }
+.btn-dark { background: var(--ink); color: var(--on-dark); }
+.btn-dark:hover { background: oklch(0.20 0.012 55); transform: translateY(-2px); }
+.btn-on-dark { background: var(--on-dark); color: var(--dark); }
+.btn-on-dark:hover { background: var(--heat); color: oklch(0.99 0.01 75); transform: translateY(-2px); }
+.btn .arr { transition: transform .2s ease; }
+.btn:hover .arr { transform: translateX(4px); }
+
+/* — Чіп — */
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
+  padding: 7px 13px; border-radius: 100px;
+  border: 1px solid var(--line); background: var(--bg);
+  color: var(--ink-2);
+}
+
+/* — Плейсхолдери зображень — */
+.ph-note {
+  position: absolute; bottom: 12px; left: 12px;
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.04em;
+  color: var(--ink-3); background: oklch(1 0 0 / 0.7);
+  padding: 4px 9px; border-radius: 6px; backdrop-filter: blur(4px);
+  pointer-events: none; z-index: 2;
+}
+image-slot {
+  --slot-bg: repeating-linear-gradient(45deg, var(--bg-2) 0 12px, var(--bg-3) 12px 24px);
+}
+
+/* — Reveal on scroll — */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal.d1 { transition-delay: .07s; }
+.reveal.d2 { transition-delay: .14s; }
+.reveal.d3 { transition-delay: .21s; }
+.reveal.d4 { transition-delay: .28s; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+}
