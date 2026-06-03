@@ -122,15 +122,85 @@ h1, h2, h3 { font-family: var(--font-display); font-weight: 600; line-height: 1.
 }
 
 /* — Reveal on scroll — */
-.reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
+.reveal { 
+  opacity: 0; 
+  transform: translateY(30px); 
+  transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1); 
+  will-change: transform, opacity;
+}
 .reveal.in { opacity: 1; transform: none; }
-.reveal.d1 { transition-delay: .07s; }
-.reveal.d2 { transition-delay: .14s; }
-.reveal.d3 { transition-delay: .21s; }
-.reveal.d4 { transition-delay: .28s; }
+
+/* Staggered delays for children if parent is .reveal-group */
+.reveal-group .reveal.in:nth-child(1) { transition-delay: 0.05s; }
+.reveal-group .reveal.in:nth-child(2) { transition-delay: 0.12s; }
+.reveal-group .reveal.in:nth-child(3) { transition-delay: 0.19s; }
+.reveal-group .reveal.in:nth-child(4) { transition-delay: 0.26s; }
+.reveal-group .reveal.in:nth-child(5) { transition-delay: 0.33s; }
+.reveal-group .reveal.in:nth-child(6) { transition-delay: 0.40s; }
+
+.reveal.d1 { transition-delay: .1s; }
+.reveal.d2 { transition-delay: .2s; }
+.reveal.d3 { transition-delay: .3s; }
+
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   html { scroll-behavior: auto; }
+}
+
+/* — Custom Scrollbar — */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 10px; border: 3px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+
+/* — Pulse Animation for Phone — */
+@keyframes pulse-soft {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.nav-phone { animation: pulse-soft 3s ease-in-out infinite; }
+
+/* — Engineering Grid Background — */
+.bg-grid {
+  position: relative;
+  z-index: 1;
+}
+.bg-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 50px 50px;
+  mask-image: radial-gradient(circle at center, black 30%, transparent 90%);
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* — Animated Gradients — */
+@keyframes flow-heat {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.accent-flow {
+  background: linear-gradient(90deg, var(--heat-ink), var(--heat), var(--heat-ink));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: flow-heat 4s linear infinite;
+}
+
+.accent-flow-w {
+  background: linear-gradient(90deg, var(--water-ink), var(--water), var(--water-ink));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: flow-heat 5s linear infinite reverse;
 }
 
 /* ============================================================
