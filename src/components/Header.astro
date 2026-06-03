@@ -19,5 +19,42 @@ const isContacts = pathname === '/contacts' || pathname === '/contacts/';
       <a href="tel:+380969428474" class="nav-phone">+38 096 942 84 74</a>
       <a href="/contacts" class="btn btn-primary" style="padding:12px 22px;font-size:15px;">Залишити заявку</a>
     </div>
+    <button class="burger" id="burger" aria-label="Відкрити меню" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
   </nav>
 </header>
+
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <nav class="mobile-nav">
+    <a href="/" class={isHome ? 'active' : ''}>Головна</a>
+    <a href="/#services">Послуги</a>
+    <a href="/gallery" class={isGallery ? 'active' : ''}>Галерея</a>
+    <a href="/contacts" class={isContacts ? 'active' : ''}>Контакти</a>
+    <a href="tel:+380969428474" class="mobile-phone">+38 096 942 84 74</a>
+    <a href="/contacts" class="btn btn-primary" style="text-align:center;">Залишити заявку</a>
+  </nav>
+</div>
+
+<script>
+  const burger = document.getElementById('burger')!;
+  const menu = document.getElementById('mobile-menu')!;
+
+  burger.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+    menu.setAttribute('aria-hidden', String(!open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+
+  menu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    });
+  });
+</script>
