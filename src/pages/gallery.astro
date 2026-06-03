@@ -1,0 +1,92 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// Додайте фото у /public/gallery/ і вкажіть назви файлів тут
+const photos: { src: string; caption: string }[] = [
+  // { src: '/gallery/photo-1.jpg', caption: 'Монтаж котельні' },
+  // { src: '/gallery/photo-2.jpg', caption: 'Тепла підлога' },
+  // { src: '/gallery/photo-3.jpg', caption: 'Система водопостачання' },
+];
+
+const PLACEHOLDERS = 9; // показуємо поки немає фото
+---
+<Layout
+  title="Галерея — ТеплоХаб"
+  description="Фото виконаних робіт ТеплоХаб: монтаж систем опалення, теплих підлог, водопостачання та котелень."
+>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow on-dark">Виконані роботи</span>
+      <h1>Галерея проєктів</h1>
+      <p>Реальні об'єкти — приватні будинки, квартири, комерційні та промислові приміщення.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      {photos.length > 0 ? (
+        <div class="gallery-grid">
+          {photos.map((photo, i) => (
+            <div class="gallery-item reveal" data-src={photo.src} data-caption={photo.caption} style={`animation-delay:${(i % 3) * 0.07}s`}>
+              <img src={photo.src} alt={photo.caption} loading="lazy" />
+              <div class="g-overlay">
+                <span class="g-caption">{photo.caption}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>
+          <div class="gallery-grid">
+            {Array.from({ length: PLACEHOLDERS }, (_, i) => (
+              <div class="gallery-item reveal" style={`cursor:default;animation-delay:${(i % 3) * 0.07}s`}>
+                <div class="gallery-ph"><span>Фото {i + 1}</span></div>
+              </div>
+            ))}
+          </div>
+          <p style="text-align:center;margin-top:32px;font-family:var(--font-mono);font-size:12px;color:var(--ink-3);letter-spacing:0.04em;">
+            Додайте фото у <code>/public/gallery/</code> і розкоментуйте масив у <code>src/pages/gallery.astro</code>
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true">
+    <button class="lightbox-close" id="lightboxClose" aria-label="Закрити">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="lightbox-inner">
+      <img id="lightboxImg" src="" alt="" />
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+
+  <script>
+    const lightbox = document.getElementById('lightbox')!;
+    const lbImg = document.getElementById('lightboxImg') as HTMLImageElement;
+    const lbCaption = document.getElementById('lightboxCaption')!;
+
+    document.querySelectorAll('.gallery-item[data-src]').forEach((item) => {
+      item.addEventListener('click', () => {
+        const src = item.getAttribute('data-src')!;
+        const caption = item.getAttribute('data-caption') ?? '';
+        lbImg.src = src;
+        lbImg.alt = caption;
+        lbCaption.textContent = caption;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('lightboxClose')!.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
+</Layout>

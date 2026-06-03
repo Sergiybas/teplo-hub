@@ -1,0 +1,23 @@
+---
+const { pathname } = Astro.url;
+const isHome = pathname === '/';
+const isGallery = pathname === '/gallery' || pathname === '/gallery/';
+const isContacts = pathname === '/contacts' || pathname === '/contacts/';
+---
+<header class="site-header" id="top">
+  <nav class="nav">
+    <a class="brand" href="/" aria-label="ТеплоХаб">
+      <img src="/logo.png" alt="ТеплоХаб" class="brand-logo" />
+    </a>
+    <div class="nav-links">
+      <a href="/" class={isHome ? 'active' : ''}>Головна</a>
+      <a href="/#services">Послуги</a>
+      <a href="/gallery" class={isGallery ? 'active' : ''}>Галерея</a>
+      <a href="/contacts" class={isContacts ? 'active' : ''}>Контакти</a>
+    </div>
+    <div class="nav-cta">
+      <a href="tel:+380969428474" class="nav-phone">+38 096 942 84 74</a>
+      <a href="/contacts" class="btn btn-primary" style="padding:12px 22px;font-size:15px;">Залишити заявку</a>
+    </div>
+  </nav>
+</header>

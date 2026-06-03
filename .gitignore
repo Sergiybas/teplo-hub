@@ -1,9 +1,17 @@
 # dependencies
 /node_modules
 
-# next.js
-/.next/
-/out/
+# astro
+/dist/
+/.astro/
+
+# env — секрети (TG_TOKEN, TG_CHAT тощо)
+.env
+.env.*
+
+# firebase
+.firebase/
+firebase-debug.log
 
 # misc
 .DS_Store
@@ -13,20 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
-
-# env files — Firebase config та інші секрети
-.env*
-
-# typescript (auto-generated)
-*.tsbuildinfo
-next-env.d.ts
-
-# firebase
-.firebase/
-firebase-debug.log
-firestore-debug.log
-ui-debug.log
 
 # claude code / editor
 CLAUDE.md
