@@ -90,6 +90,7 @@ const TG_CHAT  = import.meta.env.PUBLIC_TG_CHAT  ?? 'YOUR_CHAT_ID';
             <textarea id="f-msg" name="message" placeholder="Коротко про об'єкт і задачу (необов'язково)"></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Надіслати заявку <span class="arr">→</span></button>
+          <p id="rateError" style="display:none;color:var(--heat-ink);font-size:13px;margin-top:12px;text-align:center;">Забагато спроб. Спробуйте за годину або зателефонуйте нам.</p>
           <p class="form-note">Надсилаючи форму, ви погоджуєтесь на обробку даних.</p>
         </form>
         <div class="form-ok" id="formOk">
@@ -105,43 +106,75 @@ const TG_CHAT  = import.meta.env.PUBLIC_TG_CHAT  ?? 'YOUR_CHAT_ID';
   </section>
 
   <script define:vars={{ TG_TOKEN, TG_CHAT }}>
+    const RATE_KEY = 'th_sub';
+    const RATE_LIMIT = 3;
+    const RATE_WINDOW = 60 * 60 * 1000; // 1 година
+
+    function getRateTimestamps() {
+      try {
+        const now = Date.now();
+        const raw = localStorage.getItem(RATE_KEY);
+        return raw ? JSON.parse(raw).filter(t => now - t < RATE_WINDOW) : [];
+      } catch { return []; }
+    }
+
+    function recordSubmission(timestamps) {
+      try { localStorage.setItem(RATE_KEY, JSON.stringify([...timestamps, Date.now()])); } catch {}
+    }
+
+    // Прибираємо Markdown-символи з користувацького вводу
+    function safe(str) {
+      return String(str).trim().slice(0, 500).replace(/[*_`[\]]/g, '');
+    }
+
     const form = document.getElementById('leadForm');
     const ok = document.getElementById('formOk');
+    const rateError = document.getElementById('rateError');
 
     form?.addEventListener('submit', async (ev) => {
       ev.preventDefault();
+      rateError.style.display = 'none';
 
+      // Rate limit
+      const timestamps = getRateTimestamps();
+      if (timestamps.length >= RATE_LIMIT) {
+        rateError.style.display = 'block';
+        return;
+      }
+
+      // Валідація
       const nameEl = form.querySelector('#f-name');
       const phoneEl = form.querySelector('#f-phone');
       let valid = true;
-
       [nameEl, phoneEl].forEach((f) => {
         if (!f.value.trim()) { f.style.borderColor = 'var(--heat)'; valid = false; }
         else { f.style.borderColor = ''; }
       });
       if (!valid) return;
 
-      const service = form.querySelector('#f-service').value;
-      const message = form.querySelector('#f-msg').value.trim();
+      const service = safe(form.querySelector('#f-service').value);
+      const message = safe(form.querySelector('#f-msg').value);
+      const name    = safe(nameEl.value);
+      const phone   = safe(phoneEl.value);
 
       const text = [
-        '🔥 *Нова заявка — ТеплоХаб*',
+        '🔥 Нова заявка — ТеплоХаб',
         '',
-        `👤 *Ім'я:* ${nameEl.value.trim()}`,
-        `📞 *Телефон:* ${phoneEl.value.trim()}`,
-        `🔧 *Послуга:* ${service}`,
-        message ? `💬 *Коментар:* ${message}` : '',
+        `👤 Ім'я: ${name}`,
+        `📞 Телефон: ${phone}`,
+        `🔧 Послуга: ${service}`,
+        message ? `💬 Коментар: ${message}` : '',
       ].filter(Boolean).join('\n');
+
+      recordSubmission(timestamps);
 
       try {
         await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chat_id: TG_CHAT, text, parse_mode: 'Markdown' }),
+          body: JSON.stringify({ chat_id: TG_CHAT, text }),
         });
-      } catch (_) {
-        // якщо Telegram недоступний — все одно показуємо успіх
-      }
+      } catch (_) {}
 
       form.style.display = 'none';
       ok.classList.add('show');

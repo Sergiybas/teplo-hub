@@ -25,3 +25,4 @@ yarn-error.log*
 # claude code / editor
 CLAUDE.md
 .vscode/
+GEMINI.md
