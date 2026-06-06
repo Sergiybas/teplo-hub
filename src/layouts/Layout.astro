@@ -6,12 +6,55 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title?: string;
   description?: string;
+  ogImage?: string;
 }
 
 const {
   title = 'ТеплоХаб — інженерні системи опалення, водопостачання та каналізації',
-  description = 'ТеплоХаб — проєктування, монтаж та сервіс інженерних систем «під ключ». Опалення, теплові насоси, котли, тепла підлога, водопостачання та каналізація.'
+  description = 'ТеплоХаб — проєктування, монтаж та сервіс інженерних систем «під ключ». Опалення, теплові насоси, котли, тепла підлога, водопостачання та каналізація.',
+  ogImage = '/hero.jpg',
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, Astro.site);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "ТеплоХаб",
+  "description": "Проєктування, монтаж та сервіс інженерних систем «під ключ»: опалення, теплові насоси, котли, тепла підлога, водопостачання та каналізація.",
+  "url": Astro.site?.toString(),
+  "telephone": "+380969428474",
+  "email": "hello@teplohub.ua",
+  "image": ogImageURL.toString(),
+  "foundingDate": "2012",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Нововолинськ",
+    "addressRegion": "Волинська область",
+    "addressCountry": "UA"
+  },
+  "areaServed": [
+    { "@type": "City", "name": "Нововолинськ" },
+    { "@type": "AdministrativeArea", "name": "Волинська область" }
+  ],
+  "openingHours": "Mo-Sa 09:00-19:00",
+  "priceRange": "$$",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Інженерні системи",
+    "itemListElement": [
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Автономне опалення приватних будинків та квартир" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Монтаж теплових насосів" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Встановлення газових, електричних і твердопаливних котлів" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Монтаж теплої підлоги" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Системи водопостачання та каналізації" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Монтаж бойлерів та систем ГВП" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Пусконалагоджувальні роботи" } },
+      { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Сервісне обслуговування та ремонт інженерних систем" } },
+    ]
+  },
+};
 ---
 <!doctype html>
 <html lang="uk">
@@ -20,6 +63,26 @@ const {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
   <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImageURL} />
+  <meta property="og:locale" content="uk_UA" />
+  <meta property="og:site_name" content="ТеплоХаб" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImageURL} />
+
+  <!-- Schema.org LocalBusiness -->
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
   <link rel="icon" href="/favicon.ico" />
 </head>
 <body>
