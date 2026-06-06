@@ -26,3 +26,4 @@ yarn-error.log*
 CLAUDE.md
 .vscode/
 GEMINI.md
+.claude/
