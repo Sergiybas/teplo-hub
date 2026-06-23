@@ -3,6 +3,7 @@ const { pathname } = Astro.url;
 const isHome = pathname === '/';
 const isGallery = pathname === '/gallery' || pathname === '/gallery/';
 const isContacts = pathname === '/contacts' || pathname === '/contacts/';
+const isBoilerService = pathname === '/boiler-service' || pathname === '/boiler-service/';
 ---
 <header class="site-header" id="top">
   <nav class="nav">
@@ -11,7 +12,7 @@ const isContacts = pathname === '/contacts' || pathname === '/contacts/';
     </a>
     <div class="nav-links">
       <a href="/" class={isHome ? 'active' : ''}>Головна</a>
-      <a href="/#services">Послуги</a>
+      <a href="/boiler-service" class={isBoilerService ? 'active' : ''}>Обслуговування котлів</a>
       <a href="/gallery" class={isGallery ? 'active' : ''}>Галерея</a>
       <a href="/contacts" class={isContacts ? 'active' : ''}>Контакти</a>
     </div>
@@ -28,7 +29,7 @@ const isContacts = pathname === '/contacts' || pathname === '/contacts/';
 <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
   <nav class="mobile-nav">
     <a href="/" class={isHome ? 'active' : ''}>Головна</a>
-    <a href="/#services">Послуги</a>
+    <a href="/boiler-service" class={isBoilerService ? 'active' : ''}>Обслуговування котлів</a>
     <a href="/gallery" class={isGallery ? 'active' : ''}>Галерея</a>
     <a href="/contacts" class={isContacts ? 'active' : ''}>Контакти</a>
     <a href="tel:+380969428474" class="mobile-phone">+38 096 942 84 74</a>
