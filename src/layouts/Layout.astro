@@ -90,6 +90,14 @@ const schema = {
   <slot />
   <Footer />
 
+  <!-- Cookie Banner -->
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
+    <div class="cookie-wrap">
+      <p>Цей сайт використовує файли cookie для покращення вашого досвіду. Продовжуючи перегляд, ви погоджуєтеся з нашою політикою конфіденційності.</p>
+      <button id="cookie-accept" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px; white-space: nowrap;">Згоден</button>
+    </div>
+  </div>
+
   <script>
     // Header shadow on scroll
     const header = document.querySelector('.site-header') as HTMLElement;
@@ -125,6 +133,20 @@ const schema = {
         else { item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
       });
     });
+
+    // Cookie Banner
+    const cookieBanner = document.getElementById('cookie-banner');
+    const cookieAccept = document.getElementById('cookie-accept');
+    if (cookieBanner && cookieAccept) {
+      const accepted = localStorage.getItem('cookie-accepted');
+      if (!accepted) {
+        setTimeout(() => cookieBanner.classList.add('show'), 1500);
+      }
+      cookieAccept.addEventListener('click', () => {
+        localStorage.setItem('cookie-accepted', 'true');
+        cookieBanner.classList.remove('show');
+      });
+    }
   </script>
 </body>
 </html>
