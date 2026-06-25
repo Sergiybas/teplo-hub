@@ -10,8 +10,8 @@ interface Props {
 }
 
 const {
-  title = 'ТеплоХаб — інженерні системи опалення, водопостачання та каналізації',
-  description = 'ТеплоХаб — проєктування, монтаж та сервіс інженерних систем «під ключ». Опалення, теплові насоси, котли, тепла підлога, водопостачання та каналізація.',
+  title = 'ТермоХаб — інженерні системи опалення, водопостачання та каналізації',
+  description = 'ТермоХаб — проєктування, монтаж та сервіс інженерних систем «під ключ». Опалення, теплові насоси, котли, тепла підлога, водопостачання та каналізація.',
   ogImage = '/hero-main.jpg',
 } = Astro.props;
 
@@ -21,11 +21,11 @@ const ogImageURL = new URL(ogImage, Astro.site);
 const schema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  "name": "ТеплоХаб",
+  "name": "ТермоХаб",
   "description": "Проєктування, монтаж та сервіс інженерних систем «під ключ»: опалення, теплові насоси, котли, тепла підлога, водопостачання та каналізація.",
   "url": Astro.site?.toString(),
   "telephone": "+380969428474",
-  "email": "hello@teplohub.ua",
+  "email": "hello@termohub.ua",
   "image": ogImageURL.toString(),
   "foundingDate": "2012",
   "address": {
@@ -72,7 +72,7 @@ const schema = {
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImageURL} />
   <meta property="og:locale" content="uk_UA" />
-  <meta property="og:site_name" content="ТеплоХаб" />
+  <meta property="og:site_name" content="ТермоХаб" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -94,7 +94,7 @@ const schema = {
   <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite">
     <div class="cookie-wrap">
       <p>Цей сайт використовує файли cookie для покращення вашого досвіду. Продовжуючи перегляд, ви погоджуєтеся з нашою політикою конфіденційності.</p>
-      <button id="cookie-accept" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px; white-space: nowrap;">Згоден</button>
+      <button id="cookie-accept" class="btn btn-primary" style="padding: 10px 20px; font-size: 14px; white-space: nowrap;">Прийняти</button>
     </div>
   </div>
 
