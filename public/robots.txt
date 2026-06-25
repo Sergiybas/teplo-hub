@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://termo-hub.web.app/sitemap-index.xml
+Sitemap: https://termo-hub.com.ua/sitemap-index.xml
