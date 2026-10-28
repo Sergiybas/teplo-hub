@@ -13,11 +13,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22.23.4
           cache: npm
 
       - run: npm ci
 
       - run: npm run build
 
-      - run: npx firebase deploy --only hosting --token ${{ secrets.FIREBASE_TOKEN }}
+      - run: npx firebase deploy --only hosting,functions --token ${{ secrets.FIREBASE_TOKEN }}

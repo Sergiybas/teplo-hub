@@ -11,9 +11,9 @@ HTML-прототип (для референсу дизайну): `prototype/ind
 ## Стек
 
 ```
-Astro 5 (статичний вивід, TypeScript)
+Astro 7 (статичний вивід, TypeScript)
 Чистий CSS — дизайн-система в src/styles/global.css
-Без Tailwind, без React, без Firebase
+Без Tailwind і React; Firebase Hosting + Cloud Functions для форми заявки
 ```
 
 ## Команди
@@ -51,12 +51,15 @@ src/
 
 ## Форма → Telegram
 
-`src/pages/contacts.astro` — форма відправляє через Telegram Bot API (`fetch` на клієнті).
+`src/pages/contacts.astro` надсилає заявку на same-origin endpoint `/api/lead`.
+Firebase Hosting переписує цей шлях на Cloud Function `submitLead`, а вже функція
+надсилає повідомлення через Telegram Bot API. Токен і chat ID ніколи не передаються
+у браузер і не повинні мати префікс `PUBLIC_`.
 
-Потрібно у `.env`:
+Перед першим deploy налаштувати Firebase Secrets:
 ```
-PUBLIC_TG_TOKEN=токен_бота
-PUBLIC_TG_CHAT=chat_id
+firebase functions:secrets:set TELEGRAM_TOKEN
+firebase functions:secrets:set TELEGRAM_CHAT_ID
 ```
 
 Як отримати: створити бота через @BotFather → написати боту → перейти на `https://api.telegram.org/bot<TOKEN>/getUpdates` → знайти `"chat":{"id":...}`.
