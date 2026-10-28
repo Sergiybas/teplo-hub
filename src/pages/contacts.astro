@@ -57,15 +57,15 @@ import Layout from '../layouts/Layout.astro';
           <p class="fc-sub">Відповідаємо протягом робочого дня.</p>
           <div class="field">
             <label for="f-name">Ім'я</label>
-            <input id="f-name" name="name" type="text" placeholder="Як до вас звертатися" required />
+            <input id="f-name" name="name" type="text" placeholder="Як до вас звертатися" required disabled />
           </div>
           <div class="field">
             <label for="f-phone">Телефон</label>
-            <input id="f-phone" name="phone" type="tel" placeholder="Ваш номер телефону" required />
+            <input id="f-phone" name="phone" type="tel" placeholder="Ваш номер телефону" required disabled />
           </div>
           <div class="field">
             <label for="f-service">Послуга</label>
-            <select id="f-service" name="service">
+            <select id="f-service" name="service" disabled>
               <option>Опалення «під ключ»</option>
               <option>Тепловий насос</option>
               <option>Монтаж котла</option>
@@ -78,13 +78,13 @@ import Layout from '../layouts/Layout.astro';
           </div>
           <div class="field">
             <label for="f-msg">Коментар</label>
-            <textarea id="f-msg" name="message" placeholder="Коротко про об'єкт і завдання (необов'язково)"></textarea>
+            <textarea id="f-msg" name="message" placeholder="Коротко про об'єкт і завдання (необов'язково)" disabled></textarea>
           </div>
-          <button type="submit" class="btn btn-primary">Надіслати заявку <span class="arr">→</span></button>
+          <a href="tel:+380969428474" class="btn btn-primary">Зателефонувати <span class="arr">→</span></a>
           <p id="rateError" style="display:none;color:var(--heat-ink);font-size:13px;margin-top:12px;text-align:center;">Забагато спроб. Спробуйте за годину або зателефонуйте нам.</p>
           <p id="formError" style="display:none;color:var(--heat-ink);font-size:13px;margin-top:12px;text-align:center;">Не вдалося надіслати заявку. Спробуйте ще раз або зателефонуйте нам.</p>
           <input name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;" />
-          <p class="form-note">Надсилаючи форму, ви погоджуєтесь на обробку даних.</p>
+          <p class="form-note">Онлайн-заявки тимчасово недоступні. Зателефонуйте нам за номером +38 096 942 84 74.</p>
         </form>
         <div class="form-ok" id="formOk">
           <div class="ok-ic">
